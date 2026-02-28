@@ -1,0 +1,28 @@
+{
+  "name": "budget-tracker-mvp",
+  "version": "1.0.0",
+  "description": "Sprint 1 MVP - Budget Tracker Application",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imbozen/budget-tracker-mvp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/imbozen/budget-tracker-mvp/issues"
+  },
+  "homepage": "https://github.com/imbozen/budget-tracker-mvp#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
+  }
+}

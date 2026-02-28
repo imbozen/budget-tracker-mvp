@@ -1,7 +1,9 @@
 const express = require('express');
 
+const expenseRoutes = require('./routes/expenseRoutes');
 const app = express();
 app.use(express.json());
+app.use('/', expenseRoutes);
 
 app.get('/', (req, res) => {
   res.send('Budget Tracker API Running');

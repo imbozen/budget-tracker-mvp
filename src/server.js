@@ -3,7 +3,7 @@ const express = require('express');
 const expenseRoutes = require('./routes/expenseRoutes');
 const app = express();
 app.use(express.json());
-app.use('/', expenseRoutes);
+app.use('/api', expenseRoutes);
 
 app.get('/', (req, res) => {
   res.send('Budget Tracker API Running');

@@ -1,35 +1,27 @@
-const Expense = require('../models/expense');
-
 const expenses = [];
 
-function addExpense(description, amount) {
-  if (!description) {
-    throw new Error("Description is required");
-  }
+function getExpenses() {
+  return expenses;
+}
 
-  if (typeof amount !== "number" || amount <= 0) {
-    throw new Error("Amount must be a positive number");
-  }
-
-  const expense = new Expense(description, amount);
+function createExpense(expense) {
   expenses.push(expense);
-
   return expense;
 }
 
-function getAllExpenses() {
-  return expenses;
+function deleteExpense(id) {
+  const index = expenses.findIndex(e => e.id === id);
+
+  if (index !== -1) {
+    return expenses.splice(index, 1);
+  }
+
+  return null;
 }
 
 function getTotalExpenses() {
   return expenses.reduce((total, expense) => total + expense.amount, 0);
 }
-
-module.exports = {
-  addExpense,
-  getAllExpenses,
-  getTotalExpenses
-};
 
 module.exports = {
   getExpenses,

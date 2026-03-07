@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const expenseController = require('../controllers/expenseController');
 
-router.post('/expenses', expenseController.createExpense);
-router.get('/expenses', expenseController.fetchExpenses);
-router.get('/expenses/total', expenseController.fetchTotal);
+// All routes are defined before module.exports
+router.post('/', expenseController.createExpense);
+router.get('/', expenseController.fetchExpenses);
+router.get('/total', expenseController.fetchTotal); // Uses fetchTotal from your controller
 
 module.exports = router;
-
-router.get('/total', expenseController.getTotal);

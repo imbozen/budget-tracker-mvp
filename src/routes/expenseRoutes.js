@@ -7,3 +7,5 @@ router.get('/expenses', expenseController.fetchExpenses);
 router.get('/expenses/total', expenseController.fetchTotal);
 
 module.exports = router;
+
+router.get('/total', expenseController.getTotal);

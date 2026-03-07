@@ -23,3 +23,28 @@ module.exports = {
   fetchExpenses,
   fetchTotal
 };
+
+exports.createExpense = (req, res) => {
+
+  const { name, amount } = req.body;
+
+  if (!name || !amount) {
+    return res.status(400).json({
+      error: "Name and amount are required"
+    });
+  }
+
+  if (typeof amount !== "number") {
+    return res.status(400).json({
+      error: "Amount must be a number"
+    });
+  }
+
+  const expense = expenseService.createExpense(req.body);
+  res.status(201).json(expense);
+};
+
+exports.getTotal = (req, res) => {
+  const total = expenseService.getTotalExpenses();
+  res.json({ total });
+};

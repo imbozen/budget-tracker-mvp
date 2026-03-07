@@ -30,3 +30,14 @@ module.exports = {
   getAllExpenses,
   getTotalExpenses
 };
+
+function getTotalExpenses() {
+  return expenses.reduce((total, expense) => total + expense.amount, 0);
+}
+
+module.exports = {
+  getExpenses,
+  createExpense,
+  deleteExpense,
+  getTotalExpenses
+};

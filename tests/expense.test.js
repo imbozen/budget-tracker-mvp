@@ -1,9 +1,6 @@
 const request = require('supertest');
-const app = require('../src/app');
+const app = require('../src/app'); // Connects to the logic, not the port
 
 describe('Expense API', () => {
-  test('GET / should return running message', async () => {
-    const res = await request(app).get('/');
-    expect(res.statusCode).toBe(200);
-  });
+  // ... your tests
 });

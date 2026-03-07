@@ -1,6 +1,5 @@
 const express = require('express');
 const expenseRoutes = require('./routes/expenseRoutes');
-
 const app = express();
 
 app.use(express.json());

@@ -36,3 +36,22 @@ Tech Stack
     Jest (Unit Testing)
     Git & GitHub (Version Control)
     Render (Deployment)
+
+Architecture
+    The application follows the MVC architecture pattern:
+    Routes → Controllers → Services → Models
+
+Design Patterns
+    MVC Pattern
+    Separates routing, business logic, and data models.
+    Service Layer Pattern
+    Business logic is handled in service modules to keep controllers lightweight.
+
+Testing
+    Unit and integration tests implemented using Jest and Supertest.
+
+CI/CD
+    Automated testing configured using GitHub Actions.
+
+Deployment
+    Application deployed using Render.

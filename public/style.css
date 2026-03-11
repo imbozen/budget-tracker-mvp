@@ -32,3 +32,12 @@ margin: 8px;
 padding: 5px;
 border-bottom: 1px solid #ddd;
 }
+
+.dashboard{
+background:white;
+padding:15px;
+border-radius:10px;
+width:300px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+margin-bottom:20px;
+}

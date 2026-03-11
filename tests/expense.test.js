@@ -3,12 +3,12 @@ const app = require('../src/app');
 
 describe('Expense API', () => {
   
-  test('GET / should return running message', async () => {
+  test('GET / should return HTML page', async () => {
     const res = await request(app).get('/');
     expect(res.statusCode).toBe(200);
-    expect(res.text).toBe('Budget Tracker API Running');
+    expect(res.text).toContain('<html>');
   });
-
+  
   test('GET /api/expenses/total should return a total object', async () => {
     const res = await request(app).get('/api/expenses/total');
     expect(res.statusCode).toBe(200);

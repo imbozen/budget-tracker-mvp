@@ -3,7 +3,13 @@ const expenseService = require('../services/expenseService');
 const createExpense = (req, res) => {
   try {
     const { description, amount } = req.body;
-    const expense = expenseService.addExpense(description, amount);
+
+    const expense = expenseService.createExpense({
+      id: Date.now().toString(),
+      description,
+      amount: Number(amount)
+    });
+
     res.status(201).json(expense);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -11,14 +17,13 @@ const createExpense = (req, res) => {
 };
 
 const fetchExpenses = (req, res) => {
-  res.json(expenseService.getAllExpenses());
+  res.json(expenseService.getExpenses());
 };
 
 const fetchTotal = (req, res) => {
   res.json({ total: expenseService.getTotalExpenses() });
 };
 
-// Use ONLY this block to export. Do not use "exports.fetchTotal =" anywhere else.
 module.exports = {
   createExpense,
   fetchExpenses,

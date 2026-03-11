@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Weekly Budget Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+font-family:Arial;
+background:#f5f6fa;
+margin:0;
+padding:20px;
+}
+
+.container{
+display:flex;
+gap:30px;
+}
+
+.box{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+#chartBox{
+width:300px;
+}
+
+#expenseBox{
+width:350px;
+}
+
+#summaryBox{
+width:250px;
+}
+
+input{
+padding:8px;
+margin:5px 0;
+width:100%;
+}
+
+button{
+padding:8px;
+margin-top:5px;
+width:100%;
+}
+
+li{
+margin:5px 0;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Weekly Budget Tracker</h1>
+
+<div class="container">
+
+<!-- PIE CHART -->
+<div class="box" id="chartBox">
+<h3>Spending Breakdown</h3>
+<canvas id="pieChart"></canvas>
+
+<h4 id="weeklyTotal">Total Spent: $0</h4>
+</div>
+
+<!-- EXPENSE LIST -->
+<div class="box" id="expenseBox">
+
+<h3>Add Expense</h3>
+
+<input id="description" placeholder="Category (Food, Gas, etc)">
+<input id="amount" type="number" placeholder="Amount">
+
+<button onclick="addExpense()">Add Expense</button>
+
+<h3>Expenses</h3>
+
+<ul id="expenseList"></ul>
+
+</div>
+
+<!-- SUMMARY -->
+<div class="box" id="summaryBox">
+
+<h3>Weekly Income</h3>
+
+<input id="income" type="number" placeholder="Weekly income">
+
+<button onclick="setIncome()">Save Income</button>
+
+<hr>
+
+<h3>Total Money</h3>
+
+<p id="incomeDisplay">$0</p>
+
+<h3>Total Spent</h3>
+
+<p id="spentDisplay">$0</p>
+
+<h3>Remaining</h3>
+
+<p id="remainingDisplay">$0</p>
+
+</div>
+
+</div>
+
+<script>
+
+let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+let income = Number(localStorage.getItem("income")) || 0;
+
+const ctx = document.getElementById("pieChart");
+
+const pieChart = new Chart(ctx,{
+type:"pie",
+data:{
+labels:[],
+datasets:[{
+data:[],
+backgroundColor:[
+"#ff6384",
+"#36a2eb",
+"#ffcd56",
+"#4bc0c0",
+"#9966ff",
+"#ff9f40",
+"#66ff66",
+"#ff6666"
+]
+}]
+}
+});
+
+function saveData(){
+localStorage.setItem("expenses",JSON.stringify(expenses));
+localStorage.setItem("income",income);
+}
+
+function setIncome(){
+
+income = Number(document.getElementById("income").value);
+
+saveData();
+
+render();
+}
+
+function addExpense(){
+
+const desc=document.getElementById("description").value;
+const amount=Number(document.getElementById("amount").value);
+
+if(!desc || !amount) return;
+
+expenses.push({
+description:desc,
+amount:amount
+});
+
+saveData();
+
+render();
+}
+
+function render(){
+
+const list=document.getElementById("expenseList");
+
+list.innerHTML="";
+
+let total=0;
+
+expenses.forEach(e=>{
+total+=e.amount;
+
+const li=document.createElement("li");
+li.innerText=`${e.description}: $${e.amount}`;
+
+list.appendChild(li);
+});
+
+document.getElementById("spentDisplay").innerText="$"+total;
+document.getElementById("incomeDisplay").innerText="$"+income;
+document.getElementById("remainingDisplay").innerText="$"+(income-total);
+document.getElementById("weeklyTotal").innerText="Total Spent: $"+total;
+
+updateChart();
+}
+
+function updateChart(){
+
+const categories={};
+
+expenses.forEach(e=>{
+if(!categories[e.description]){
+categories[e.description]=0;
+}
+
+categories[e.description]+=e.amount;
+});
+
+pieChart.data.labels=Object.keys(categories);
+pieChart.data.datasets[0].data=Object.values(categories);
+
+pieChart.update();
+}
+
+function weeklyReset(){
+
+const now=new Date();
+
+const lastReset=localStorage.getItem("lastReset");
+
+const sunday=new Date();
+sunday.setDate(now.getDate()-now.getDay());
+
+const sundayMidnight=new Date(sunday.setHours(0,0,0,0));
+
+if(!lastReset || new Date(lastReset)<sundayMidnight){
+
+expenses=[];
+
+localStorage.setItem("expenses",JSON.stringify(expenses));
+localStorage.setItem("lastReset",now);
+}
+
+}
+
+weeklyReset();
+
+render();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fixed Expenses</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f5f6fa;
+padding:20px;
+}
+
+nav a{
+margin-right:15px;
+}
+
+.box{
+background:white;
+padding:20px;
+border-radius:10px;
+width:400px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+input{
+width:100%;
+padding:8px;
+margin:5px 0;
+}
+
+button{
+padding:8px;
+width:100%;
+margin-top:5px;
+}
+
+li{
+margin:5px 0;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="/">Weekly Budget</a>
+<a href="/fixed.html">Fixed Expenses</a>
+<a href="/debts.html">Debts</a>
+</nav>
+
+<h1>Fixed Monthly Expenses</h1>
+
+<div class="box">
+
+<h3>Add Fixed Expense</h3>
+
+<input id="name" placeholder="Expense Name (Rent, Netflix)">
+<input id="amount" type="number" placeholder="Monthly Amount">
+
+<button onclick="addFixed()">Add Expense</button>
+
+<h3>Fixed Expenses</h3>
+
+<ul id="fixedList"></ul>
+
+<hr>
+
+<h3>Total Fixed Expenses</h3>
+<p id="fixedTotal">$0</p>
+
+<h3>Remaining Monthly Budget</h3>
+<p id="remainingBudget">$0</p>
+
+</div>
+
+<script>
+
+let fixedExpenses = JSON.parse(localStorage.getItem("fixedExpenses")) || [];
+let income = Number(localStorage.getItem("income")) || 0;
+
+function save(){
+localStorage.setItem("fixedExpenses", JSON.stringify(fixedExpenses));
+}
+
+function addFixed(){
+
+const name = document.getElementById("name").value;
+const amount = Number(document.getElementById("amount").value);
+
+if(!name || !amount) return;
+
+fixedExpenses.push({
+name,
+amount
+});
+
+save();
+render();
+}
+
+function deleteFixed(index){
+
+fixedExpenses.splice(index,1);
+
+save();
+render();
+
+}
+
+function render(){
+
+const list = document.getElementById("fixedList");
+list.innerHTML="";
+
+let total=0;
+
+fixedExpenses.forEach((e,i)=>{
+
+total += e.amount;
+
+const li=document.createElement("li");
+
+li.innerHTML = `${e.name} - $${e.amount} 
+<button onclick="deleteFixed(${i})">❌</button>`;
+
+list.appendChild(li);
+
+});
+
+document.getElementById("fixedTotal").innerText = "$"+total;
+
+const remaining = income - total;
+
+document.getElementById("remainingBudget").innerText="$"+remaining;
+
+}
+
+render();
+
+</script>
+
+</body>
+</html>
